@@ -7,7 +7,7 @@ A feature-rich Telegram bot built with **Python 3.10+** and **Aiogram 3.x**. Fea
 ## ✨ Features
 
 ### 🌐 Internationalization (i18n)
-* Full bilingual support (**Arabic 🇸🇦** & **English 🇬🇧**) powered by `aiogram-i18n` and **Mozilla Fluent (`.ftl`)**.
+* Full bilingual support (**Arabic** & **English**) powered by `aiogram-i18n` and **Mozilla Fluent (`.ftl`)**.
 * Dynamic variables and placeholders handled cleanly inside translation files.
 
 ### 📁 Dynamic File & Menu System
