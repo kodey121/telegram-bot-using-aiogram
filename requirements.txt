@@ -1,0 +1,16 @@
+aiogram>=3.0.0
+python-dotenv
+yt_dlp
+pillow #requiored fir img2pdf
+img2pdf
+aiogram-i18n
+fluent.runtime
+
+#1- for your dynamic local system configuration file lookups
+aiohttp
+
+#2- YouTube Signature Solver Core (Fixes the ejs challenge solver alerts natively)
+yt-dlp-ejs
+
+# 3- Structural Web Firewall Spoofing (Add this So you can download videos from TikTok/Insta)
+ curl-cffi
