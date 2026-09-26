@@ -14,7 +14,7 @@ from aiogram_i18n import I18nContext
 import aiohttp
 import logging
 from pydantic import ValidationError
-
+from aiogram.exceptions import TelegramBadRequest
 
 import database 
 import config
@@ -187,20 +187,22 @@ async def add_admin_handling_state(msg: Message, i18n: I18nContext):
                         data = res.get("result", {})
                         first = data.get("first_name", "")
                         last = data.get("last_name", "")
+                        
                         admin_name = f"{first} {last}".strip() or f"Admin_{admin_id}"
                         username = data.get("username")
                         user_tag = f"@{username}" if username else admin_name
-        except Exception as err:
-            logging.error(f"Raw HTTP fallback failed: {err}")
+        except Exception as http_err:
+            logging.error(f"Raw HTTP lookup failed: {http_err}")
 
-    except Exception as e:
-        logging.error(f"General get_chat error: {e}")
-        
+    except (TelegramBadRequest, Exception) as e:
+        logging.error(f"Failed to fetch admin info for ID {admin_id}: {e}")
+
     database.add_admin(admin_id, admin_name)
 
     await msg.answer(
-        text=f"{user_tag} {i18n.get('succssfully_added_new_admin')}", 
-        reply_markup=builder.as_markup())
+        text=f"{user_tag} {i18n.get('succssfully_added_new_button-button')}", 
+        reply_markup=builder.as_markup()
+    )
 
 
 @utils_router.callback_query(MenuAction.filter(F.action == "delete_f"))
