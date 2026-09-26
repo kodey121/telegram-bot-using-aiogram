@@ -11,6 +11,11 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 from aiogram.filters.callback_data import CallbackData
 from aiogram_i18n import I18nContext
 
+import aiohttp
+import logging
+from pydantic import ValidationError
+
+
 import database 
 import config
 
@@ -164,22 +169,38 @@ async def add_admin_handling_state(msg: Message, i18n: I18nContext):
     builder.add(KeyboardButton(text="Finish✅"))
     admin_id = msg.text.strip()
 
+    admin_name = f"User_{admin_id}"
+    user_tag = f"ID: {admin_id}"
+
     try:
         admin_info = await msg.bot.get_chat(admin_id)
         admin_name = admin_info.full_name or f"Admin_{admin_id}"
         user_tag = f"@{admin_info.username}" if admin_info.username else admin_name
+
+    except ValidationError:
+        try:
+            url = f"https://api.telegram.org/bot{msg.bot.token}/getChat?chat_id={admin_id}"
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as resp:
+                    res = await resp.json()
+                    if res.get("ok"):
+                        data = res.get("result", {})
+                        first = data.get("first_name", "")
+                        last = data.get("last_name", "")
+                        admin_name = f"{first} {last}".strip() or f"Admin_{admin_id}"
+                        username = data.get("username")
+                        user_tag = f"@{username}" if username else admin_name
+        except Exception as err:
+            logging.error(f"Raw HTTP fallback failed: {err}")
+
     except Exception as e:
-        print(f"\n[GET_CHAT ERROR] Failed to fetch chat info for ID {admin_id}: {e}\n")
-
-        admin_name = f"User_{admin_id}"
-        user_tag = f"ID: {admin_id}"
-
+        logging.error(f"General get_chat error: {e}")
+        
     database.add_admin(admin_id, admin_name)
 
     await msg.answer(
         text=f"{user_tag} {i18n.get('succssfully_added_new_admin')}", 
-        reply_markup=builder.as_markup()
-    )
+        reply_markup=builder.as_markup())
 
 
 @utils_router.callback_query(MenuAction.filter(F.action == "delete_f"))
