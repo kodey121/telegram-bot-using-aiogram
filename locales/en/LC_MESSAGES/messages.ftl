@@ -32,6 +32,7 @@ upload_opreation_finished-reloading_menu = ✅ Upload completed! Refreshing menu
 folder_deleted_returning_stepback = 🗑️ Folder deleted, going back...
 deleting-success = ✅ Deleted successfully!
 succssfully_added_new_button-button = ✅ New button added successfully!
+succssfully_added_new_admin=new new admin added successfully ✅ 
 exact_folder = 📁 Current Folder: { $folder_name }
 button-nothing_message = ℹ️ No available actions at the moment.
 

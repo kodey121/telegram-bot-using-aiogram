@@ -32,6 +32,7 @@ upload_opreation_finished-reloading_menu = ✅ اكتملت عملية الرف�
 folder_deleted_returning_stepback = 🗑️ تم حذف المجلد، جاري العودة للخلف...
 deleting-success = ✅ تم الحذف بنجاح!
 succssfully_added_new_button-button = ✅ تم إضافة الزر الجديد بنجاح!
+succssfully_added_new_admin= تم اضافة ادمن جديد بنجاح ✅
 exact_folder = 📁 المجلد الحالي: { $folder_name }
 button-nothing_message = ℹ️ لا توجد إجراءات متاحة حالياً.
 

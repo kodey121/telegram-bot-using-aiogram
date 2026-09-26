@@ -177,7 +177,7 @@ async def add_admin_handling_state(msg: Message, i18n: I18nContext):
     database.add_admin(admin_id, admin_name)
 
     await msg.answer(
-        text=f"{user_tag} {i18n.get('succssfully_added_new_button-button')}", 
+        text=f"{user_tag} {i18n.get('succssfully_added_new_admin')}", 
         reply_markup=builder.as_markup()
     )
 
