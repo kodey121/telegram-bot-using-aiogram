@@ -162,15 +162,24 @@ async def handle_the_new_name(msg: Message, state: FSMContext, i18n: I18nContext
 async def add_admin_handling_state(msg: Message, i18n: I18nContext):
     builder = ReplyKeyboardBuilder()
     builder.add(KeyboardButton(text="Finish✅"))
-    try:
-        admin_id = msg.text
-        admin_info = await msg.bot.get_chat(admin_id)
-        admin_name = admin_info.full_name
+    admin_id = msg.text.strip()
 
-        database.add_admin(admin_id, admin_name)
-        await msg.answer(text=f"@{admin_info.username} {i18n.get('succssfully_added_new_button-button')}", reply_markup=builder.as_markup())
+    try:
+        admin_info = await msg.bot.get_chat(admin_id)
+        admin_name = admin_info.full_name or f"Admin_{admin_id}"
+        user_tag = f"@{admin_info.username}" if admin_info.username else admin_name
     except Exception as e:
-        await msg.answer(text=f"Error: {e}")
+        print(f"\n[GET_CHAT ERROR] Failed to fetch chat info for ID {admin_id}: {e}\n")
+
+        admin_name = f"User_{admin_id}"
+        user_tag = f"ID: {admin_id}"
+
+    database.add_admin(admin_id, admin_name)
+
+    await msg.answer(
+        text=f"{user_tag} {i18n.get('succssfully_added_new_button-button')}", 
+        reply_markup=builder.as_markup()
+    )
 
 
 @utils_router.callback_query(MenuAction.filter(F.action == "delete_f"))
