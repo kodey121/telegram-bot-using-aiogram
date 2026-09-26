@@ -59,6 +59,10 @@ async def finishing_handling(msg: Message, state: FSMContext):
     await state.clear()
     await msg.answer(text="Buttons:", reply_markup=ReplyKeyboardRemove())
 
+@utils_router.message(F.text == "✅Finish✅")
+async def finishing_handling(msg: Message, state: FSMContext):
+    await state.clear()
+    
 
 @utils_router.callback_query(MenuAction.filter(F.action == "send_admin_list"))
 async def handle_send_admin_list(call: CallbackQuery, i18n: I18nContext):
@@ -166,7 +170,7 @@ async def handle_the_new_name(msg: Message, state: FSMContext, i18n: I18nContext
 @utils_router.message(add_admin.get_admin_id)
 async def add_admin_handling_state(msg: Message, i18n: I18nContext):
     builder = ReplyKeyboardBuilder()
-    builder.add(KeyboardButton(text="Finish✅"))
+    builder.add(KeyboardButton(text="✅Finish✅"))
     admin_id = msg.text.strip()
 
     admin_name = f"User_{admin_id}"
@@ -200,7 +204,7 @@ async def add_admin_handling_state(msg: Message, i18n: I18nContext):
     database.add_admin(admin_id, admin_name)
 
     await msg.answer(
-        text=f"{user_tag} {i18n.get('succssfully_added_new_button-button')}", 
+        text=f"{user_tag} {i18n.get('succssfully_added_new_admin')}", 
         reply_markup=builder.as_markup()
     )
 
