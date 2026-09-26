@@ -62,7 +62,7 @@ async def finishing_handling(msg: Message, state: FSMContext):
 @utils_router.message(F.text == "✅Finish✅")
 async def finishing_handling(msg: Message, state: FSMContext):
     await state.clear()
-    await msg.answer(reply_markup=ReplyKeyboardRemove())
+    await msg.answer(text="done",reply_markup=ReplyKeyboardRemove())
 
 @utils_router.callback_query(MenuAction.filter(F.action == "send_admin_list"))
 async def handle_send_admin_list(call: CallbackQuery, i18n: I18nContext):
