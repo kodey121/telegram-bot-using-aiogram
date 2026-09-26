@@ -175,17 +175,17 @@ async def add_admin_handling_state(msg: Message, i18n: I18nContext):
 
     admin_name = f"User_{admin_id}"
     user_tag = f"ID: {admin_id}"
-
     try:
         admin_info = await msg.bot.get_chat(admin_id)
         admin_name = admin_info.full_name or f"Admin_{admin_id}"
         user_tag = f"@{admin_info.username}" if admin_info.username else admin_name
-
-    except ValidationError:
+    except Exception as e:
+    
+        print(f"[INFO] Aiogram get_chat failed ({e}). Fetching via raw HTTP...")
         try:
-            url = f"https://api.telegram.org/bot{msg.bot.token}/getChat?chat_id={admin_id}"
+            url = f"https://api.telegram.org/bot{msg.bot.token}/getChat"
             async with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
+                async with session.get(url, params={"chat_id": admin_id}) as resp:
                     res = await resp.json()
                     if res.get("ok"):
                         data = res.get("result", {})
@@ -195,11 +195,10 @@ async def add_admin_handling_state(msg: Message, i18n: I18nContext):
                         admin_name = f"{first} {last}".strip() or f"Admin_{admin_id}"
                         username = data.get("username")
                         user_tag = f"@{username}" if username else admin_name
+                    else:
+                        print(f"[ERROR] Telegram API getChat error: {res}")
         except Exception as http_err:
-            logging.error(f"Raw HTTP lookup failed: {http_err}")
-
-    except (TelegramBadRequest, Exception) as e:
-        logging.error(f"Failed to fetch admin info for ID {admin_id}: {e}")
+            print(f"[ERROR] Raw HTTP fetch failed: {http_err}")
 
     database.add_admin(admin_id, admin_name)
 
