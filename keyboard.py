@@ -429,8 +429,7 @@ async def safe_broadcast(bot, admin_chat_id: int, broadcast_message, i18n: I18nC
 
         except TelegramForbiddenError:
             blocked += 1
-            database.mark_user_as_inactive(user_id)
-
+            
         except database.TelegramRetryAfter as e:
             await asyncio.sleep(e.retry_after)
             try:

@@ -241,11 +241,6 @@ def get_users():
         for row in cur.fetchall():
                yield row[0]     
 
-def mark_user_as_inactive(user_id: int):
-    with get_connection() as conn:
-        cur = conn.cursor()
-        cur.execute("UPDATE users SET is_active = 0 WHERE user_id = ?", (user_id,))
-
 #language 
 
 def get_user_language(user_id: int) -> str:
