@@ -12,9 +12,8 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram_i18n import I18nContext
 
 import aiohttp
-import logging
-from pydantic import ValidationError
-from aiogram.exceptions import TelegramBadRequest
+
+from aiogram.exceptions import TelegramForbiddenError
 
 import database 
 import config
@@ -428,7 +427,7 @@ async def safe_broadcast(bot, admin_chat_id: int, broadcast_message, i18n: I18nC
             successful += 1
             await asyncio.sleep(0.05)
 
-        except database.TelegramForbiddenError:
+        except TelegramForbiddenError:
             blocked += 1
             database.mark_user_as_inactive(user_id)
 
