@@ -2,7 +2,7 @@ from aiogram import Router , F
 from aiogram.filters import Command,CommandStart
 from aiogram.types import Message ,CallbackQuery
 from aiogram.fsm.context import FSMContext
-from aiogram.utils.keyboard import InlineKeyboardBuilder 
+from aiogram.utils.keyboard import InlineKeyboardBuilder  
 from keyboard import MenuAction
 
 from database import add_user
@@ -33,7 +33,7 @@ def get_clean_name(name: str, user_id: int) -> str:
 command_router=Router()
 
 @command_router.message(Command("cancel"))
-@command_router.message(F.text.casefold()=="cancel-command")
+@command_router.message(F.text.casefold()=="cancel")
 async def Cancel(message:Message,state:FSMContext,i18n:I18nContext):
     current_state= await state.get_state()
     if current_state == None:
@@ -60,6 +60,7 @@ async def help_command(message:Message)->None:
 @command_router.message(Command("menu" ))
 @command_router.message(Command("mainMenu"))
 async def build_menu(msg: Message,i18n:I18nContext):
+
     # addibng the user to the data base 
     user_id = msg.from_user.id
     username=msg.from_user.full_name

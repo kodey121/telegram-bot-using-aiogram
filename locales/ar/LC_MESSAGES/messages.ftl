@@ -35,7 +35,7 @@ succssfully_added_new_button-button = ✅ تم إضافة الزر الجديد 
 succssfully_added_new_admin= تم اضافة ادمن جديد بنجاح ✅
 exact_folder = 📁 المجلد الحالي: { $folder_name }
 button-nothing_message = ℹ️ لا توجد إجراءات متاحة حالياً.
-
+cancel= تم الغاء العملية
 btn-back = 🔙 رجوع
 btn-send-files = 🗃️📲 إرسال الملفات المرفوعة
 btn-send-file-list = 🗃️📲 إرسال قائمة الملفات

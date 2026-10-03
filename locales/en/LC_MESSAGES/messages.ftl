@@ -35,7 +35,7 @@ succssfully_added_new_button-button = ✅ New button added successfully!
 succssfully_added_new_admin=new new admin added successfully ✅ 
 exact_folder = 📁 Current Folder: { $folder_name }
 button-nothing_message = ℹ️ No available actions at the moment.
-
+cancel= opreation canceled
 btn-back = 🔙 Back
 btn-send-files = 🗃️📲 Send Uploaded Files
 btn-send-file-list = 🗃️📲 Send File List
